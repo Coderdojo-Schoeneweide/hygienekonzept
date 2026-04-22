@@ -8,29 +8,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         
       - name: Github Action for LaTeX
-        uses: xu-cheng/latex-action@v2
+        uses: xu-cheng/latex-action@v4
         with:
           extra_system_packages: fontconfig
           pre_compile: "mkdir ~/.fonts && wget https://github.com/google/fonts/raw/main/ofl/sourcesanspro/SourceSansPro-Regular.ttf && wget https://github.com/google/fonts/raw/main/ofl/sourcesanspro/SourceSansPro-Bold.ttf && wget https://github.com/google/fonts/raw/main/ofl/sourcesanspro/SourceSansPro-Italic.ttf && wget https://github.com/google/fonts/raw/main/ofl/sourcesanspro/SourceSansPro-BoldItalic.ttf && mv SourceSansPro-* ~/.fonts/ && fc-cache -f -v"
           root_file: hygienekonzept-cd-shoeneweideberlin.tex
           latexmk_use_xelatex: true
+
+      - name: Upload built PDF
+        uses: actions/upload-artifact@v7
+        with:
+          name: pdf
+          path: main.pdf
+
+  deploy-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download PDF artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: pdf
           
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_ed25519
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
       
       - name: Deploy
         run: |
-          git clone git@github.com:Coderdojo-Schoeneweide/website-hugo.git
+          git clone git@github.com:Coderdojo-Schoeneweide/website.git
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          cd website-hugo/
-          cp ../hygienekonzept-cd-shoeneweideberlin.pdf static/docs/hygienekonzept.pdf
-          git add static/docs
+          cd website/
+          cp ../hygienekonzept-cd-shoeneweideberlin.pdf public/docs/hygienekonzept.pdf
+          git add public/docs
           git commit -m "Updated Hygienekonzept PDF"
           git push origin master

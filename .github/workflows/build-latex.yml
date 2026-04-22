@@ -14,7 +14,7 @@ jobs:
         uses: xu-cheng/latex-action@v4
         with:
           extra_system_packages: fontconfig
-          pre_compile: "mkdir ~/.fonts && wget https://github.com/google/fonts/raw/main/ofl/sourcesanspro/SourceSansPro-Regular.ttf && wget https://github.com/google/fonts/raw/main/ofl/sourcesanspro/SourceSansPro-Bold.ttf && wget https://github.com/google/fonts/raw/5b3565e1fe5deface5aae83dd5f6ed07dc77a53d/ofl/sourcesanspro/SourceSansPro-Italic.ttf && wget https://github.com/google/fonts/raw/5b3565e1fe5deface5aae83dd5f6ed07dc77a53d/ofl/sourcesanspro/SourceSansPro-BoldItalic.ttf && mv SourceSansPro-* ~/.fonts/ && fc-cache -f -v"
+          pre_compile: "mkdir ~/.fonts && wget https://github.com/google/fonts/raw/5b3565e1fe5deface5aae83dd5f6ed07dc77a53d/ofl/sourcesanspro/SourceSansPro-Regular.ttf && wget https://github.com/google/fonts/raw/5b3565e1fe5deface5aae83dd5f6ed07dc77a53d/ofl/sourcesanspro/SourceSansPro-Bold.ttf && wget https://github.com/google/fonts/raw/5b3565e1fe5deface5aae83dd5f6ed07dc77a53d/ofl/sourcesanspro/SourceSansPro-Italic.ttf && wget https://github.com/google/fonts/raw/5b3565e1fe5deface5aae83dd5f6ed07dc77a53d/ofl/sourcesanspro/SourceSansPro-BoldItalic.ttf && mv SourceSansPro-* ~/.fonts/ && fc-cache -f -v"
           root_file: hygienekonzept-cd-shoeneweideberlin.tex
           latexmk_use_xelatex: true
 
